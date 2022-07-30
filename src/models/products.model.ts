@@ -1,6 +1,6 @@
 import { Pool, ResultSetHeader } from 'mysql2/promise';
 import { IProduct } from '../interfaces/IProduct';
-import createProduct from './queries';
+import { createProduct, getAllProducts } from './queries';
 
 export default class ProductsModel {
   public connection: Pool;
@@ -9,12 +9,12 @@ export default class ProductsModel {
     this.connection = connection;
   }
 
-  // public async getAll(): Promise<Book[]> {
-  //   const result = await this.connection
-  //     .execute('SELECT * FROM books');
-  //   const [rows] = result;
-  //   return rows as Book[];
-  // }
+  public async getAll(): Promise<IProduct[]> {
+    const result = await this.connection
+      .execute(getAllProducts);
+    const [rows] = result;
+    return rows as IProduct[];
+  }
 
   public async add(product: IProduct): Promise<IProduct> {
     const { name, amount } = product;

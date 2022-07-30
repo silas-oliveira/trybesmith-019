@@ -9,4 +9,10 @@ productsRouter.post('/', async (req, res, _next) => {
   return res.status(201).json(result);
 });
 
+productsRouter.get('/', async (_req, res, _next) => {
+  const productsController = new ProductsController();
+  const result = await productsController.getAll();
+  return res.status(200).json(result);
+});
+
 export default productsRouter;

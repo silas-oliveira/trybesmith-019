@@ -1,5 +1,5 @@
-const createProduct = `
+export const createProduct = `
 INSERT INTO Trybesmith.Products (name, amount) VALUES (?, ?)
 `;
 
-export default createProduct;
+export const getAllProducts = 'SELECT * FROM Trybesmith.Products';
