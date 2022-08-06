@@ -1,13 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
-const errorHandler = (err: Error, _req: Request, res: Response, _next: NextFunction) => {
-  const { message } = err;
-  
-  if (err) {
-    const [msg, status] = message.split('/');
-    console.log('msg', msg);
-    res.status(Number(status)).json({ message: msg });
-  }
+const errorHandler = ({ message }: Error, _req: Request, res: Response, _next: NextFunction) => {
+  const [msg, status, token] = message.split('/');
+  return res.status(Number(status)).json({ [token ? 'error' : 'message']: msg });
 };
 
-export default { errorHandler }; 
+export default errorHandler; 

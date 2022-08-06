@@ -1,29 +1,26 @@
-import { Pool, ResultSetHeader } from 'mysql2/promise';
+import { ResultSetHeader } from 'mysql2/promise';
 import { IProduct } from '../interfaces/IProduct';
+import connection from './connection';
 import { createProduct, getAllProducts } from './queries';
 
-export default class ProductsModel {
-  public connection: Pool;
-
-  constructor(connection: Pool) {
-    this.connection = connection;
-  }
-
-  public async getAll(): Promise<IProduct[]> {
-    const result = await this.connection
+const ProductsModel = {
+  async getAll(): Promise<IProduct[]> {
+    const result = await connection
       .execute(getAllProducts);
     const [rows] = result;
     return rows as IProduct[];
-  }
+  },
 
-  public async add(product: IProduct): Promise<IProduct> {
+  async add(product: IProduct): Promise<IProduct> {
     const { name, amount } = product;
-    const result = await this.connection.execute<ResultSetHeader>(
+    const result = await connection.execute<ResultSetHeader>(
       createProduct,
       [name, amount],
     );
     const [dataInserted] = result;
     const { insertId } = dataInserted;
     return { id: insertId, ...product };
-  }
-}
+  },
+};
+
+export default ProductsModel;
