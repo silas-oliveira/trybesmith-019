@@ -4,12 +4,14 @@ import { IUser } from '../interfaces/IUser';
 import { ExpiredOrInvalidToken, TokenNotFound } from '../utils/throw.error';
 import PasswordService from './password.service';
 
+const secret = 'ddsswithas';
+
 dotenv.config();
 
 const AuthService = {
   createToken(user: IUser) {
     const userWithotPassword = PasswordService.removePassword(user);
-    const tokenCreate = jwt.sign({ userWithotPassword }, process.env.JWT_SECRET as string, {
+    const tokenCreate = jwt.sign({ userWithotPassword }, secret, {
       expiresIn: '7d',
       algorithm: 'HS256',
     });
