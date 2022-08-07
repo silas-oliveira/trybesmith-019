@@ -9,7 +9,7 @@ dotenv.config();
 const AuthService = {
   createToken(user: IUser) {
     const userWithotPassword = PasswordService.removePassword(user);
-    const tokenCreate = jwt.sign(userWithotPassword, process.env.JWT_SECRET as string, {
+    const tokenCreate = jwt.sign({ userWithotPassword }, process.env.JWT_SECRET as string, {
       expiresIn: '7d',
       algorithm: 'HS256',
     });
